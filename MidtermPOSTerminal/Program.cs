@@ -351,7 +351,7 @@ Would you like to:
                 else if (inputNum == 3)
                 {//credit card
                     Console.WriteLine("Credit cards won't be invented for another century, but we'll give it a shot.");
-                    PayCard();
+                    PayCard(total, cart);
                 }
                 cart = new List<Goods> { };
                 Console.WriteLine("\nPleasure doing business with you!");
@@ -409,12 +409,36 @@ Would you like to:
                     $"{"Account Number:",-25} {accountHidden,51} \n");
         }
 
-        public static void PayCard()
+        public static void PayCard(double total, List<Goods> cart)
         {
-            string cardNum = Validator.CheckNumString("Enter the credit card number: ", 16);
-            string expy = Validator.CheckExpy("Enter card expiration date in MM/YYYY format: ");
-            string cvv = Validator.CheckNumString("Enter the security code on the back of the card: ", 3);
+            bool confirm;
+            string cardHidden;
+            string expy;
+            string cvv;
+            do
+            {
+                string cardNum = Validator.CheckNumString("Enter the credit card number: ", 16);
+                cardHidden = new string('*', 12) + cardNum.Substring(cardNum.Length - 4);
+                expy = Validator.CheckExpy("Enter card expiration date in MM/YYYY format: ");
+                cvv = Validator.CheckNumString("Enter the security code on the back of the card: ", 3);
+                Console.WriteLine($"Total: {total:C}");
+                confirm = Validator.CheckYes("\nIs this amount OK? ");
+                if (confirm)
+                {
+                    Console.WriteLine($"\nCard Number: {cardHidden} \n" +
+                    $"Expiration Date: {expy} \n" +
+                    $"CVV: {"***"} \n" +
+                    $"Amount confirmed: {total:C}");
+                    confirm = Validator.CheckYes("\nIs this information correct? (y/n) ");
+                }                
+            } while (!confirm);
+            Console.WriteLine("Card accepted!");
 
+            PrintReceipt(cart, total, 0);
+
+            Console.WriteLine($"{"Card Number:",-25} {cardHidden,51} \n" +
+                    $"{"Expiration Date:",-25} {expy,51} \n" +
+                    $"{"CVV:",-25} {"***",51} \n");
         }
 
         public static void PrintReceipt(List<Goods> cart, double payment, double change)
