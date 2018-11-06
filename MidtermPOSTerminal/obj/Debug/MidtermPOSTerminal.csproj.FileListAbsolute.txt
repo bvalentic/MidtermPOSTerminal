@@ -1,0 +1,9 @@
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\bin\Debug\Goods.cs
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\bin\Debug\MidtermPOSTerminal.exe.config
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\bin\Debug\MidtermPOSTerminal.exe
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\bin\Debug\MidtermPOSTerminal.pdb
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\obj\Debug\MidtermPOSTerminal.csprojAssemblyReference.cache
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\obj\Debug\MidtermPOSTerminal.csproj.CoreCompileInputs.cache
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\obj\Debug\MidtermPOSTerminal.exe
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\obj\Debug\MidtermPOSTerminal.pdb
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\bin\Debug\goodsList.csv

@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2036
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MidtermPOSTerminal", "MidtermPOSTerminal\MidtermPOSTerminal.csproj", "{E8E70112-0E11-4429-928C-2043EDF15171}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{BB6A0D32-5363-40D1-B162-32672EC36470}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{21EFEC1E-C654-4507-9101-720A1A0A16C3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E8E70112-0E11-4429-928C-2043EDF15171}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E70112-0E11-4429-928C-2043EDF15171}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E70112-0E11-4429-928C-2043EDF15171}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E70112-0E11-4429-928C-2043EDF15171}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB6A0D32-5363-40D1-B162-32672EC36470}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB6A0D32-5363-40D1-B162-32672EC36470}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB6A0D32-5363-40D1-B162-32672EC36470}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB6A0D32-5363-40D1-B162-32672EC36470}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F4F3A60F-1D43-4C0A-BD73-21464E19A675}
+	EndGlobalSection
+EndGlobal
