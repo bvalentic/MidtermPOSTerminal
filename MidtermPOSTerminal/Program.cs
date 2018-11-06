@@ -191,11 +191,11 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
                     $"{cart[i].Price,-8:C} {cart[i].Quantity * cart[i].Price,-10:C}");
                 subtotal += cart[i].Quantity * cart[i].Price;
             }
-            Console.WriteLine($"\nSubtotal: {subtotal:C}");
+            Console.WriteLine($"\n{"Subtotal:",-25} {subtotal,51:C}");
             double tax = subtotal * 0.06;
-            double total = subtotal + tax;
-            Console.WriteLine($"Sales tax: {tax:C}");
-            Console.WriteLine($"Total: {total:C}");
+            double total = Math.Round(subtotal + tax,2);
+            Console.WriteLine($"{"Sales tax:",-25} {tax,51:C}");
+            Console.WriteLine($"{"Total:",-25} {total,51:C}");
             return total;
         }
 
@@ -342,29 +342,19 @@ Would you like to:
                 if (inputNum == 1)
                 {//cash
                     double change = PayCash(total);
-                    if (change > 0)
-                    {
-                        Console.WriteLine($"Your change is {change:C}.");
-                    }
+                    PrintReceipt(cart, total + change, change);
                 }
                 else if (inputNum == 2)
                 {//check
-                    double change = PayCheck(total);
-                    if (change > 0)
-                    {
-                        Console.WriteLine($"Your change is {change:C}.");
-                    }
+                    PayCheck(total, cart);
                 }
                 else if (inputNum == 3)
                 {//credit card
                     Console.WriteLine("Credit cards won't be invented for another century, but we'll give it a shot.");
-
-                    string cardNum = Validator.CheckNumString("Enter the credit card number: ", 16);
-                    string expy = Validator.CheckExpy("Enter card expiration date in MM/YYYY format: ");
-                    string cvv = Validator.CheckNumString("Enter the security code on the back of the card: ", 3);
+                    PayCard();
                 }
                 cart = new List<Goods> { };
-                Console.WriteLine("Pleasure doing business with you!");
+                Console.WriteLine("\nPleasure doing business with you!");
             }
             else
             {
@@ -386,17 +376,22 @@ Would you like to:
             return change;
         }
 
-        public static double PayCheck(double total)
+        public static void PayCheck(double total, List<Goods> cart)
         {
-            bool confirm = false;
+            bool confirm;
+            string checkNum;
+            string routingNum;
+            string routingHidden;
+            string accountNum;
+            string accountHidden;
             double change;
             do
             {
-                string checkNum = Validator.CheckNumString("Enter the check number: ", 1, 5);
-                string routingNum = Validator.CheckNumString("Enter the routing number: ", 9);
-                string routingHidden = new String('*', 5) + routingNum.Substring(routingNum.Length - 4);
-                string accountNum = Validator.CheckNumString("Enter the checking account number: ", 8, 18);
-                string accountHidden = new string('*', (accountNum.Length - 4)) + accountNum.Substring(accountNum.Length - 4);
+                checkNum = Validator.CheckNumString("Enter the check number: ", 1, 5);
+                routingNum = Validator.CheckNumString("Enter the routing number: ", 9);
+                routingHidden = new String('*', 5) + routingNum.Substring(routingNum.Length - 4);
+                accountNum = Validator.CheckNumString("Enter the checking account number: ", 8, 18);
+                accountHidden = new string('*', (accountNum.Length - 4)) + accountNum.Substring(accountNum.Length - 4);
                 change = PayCash(total);
 
                 Console.WriteLine($"\nCheck Number: {checkNum} \n" +
@@ -406,17 +401,30 @@ Would you like to:
                 confirm = Validator.CheckYes("\nIs this information correct? (y/n) ");
             } while (!confirm);
             Console.WriteLine("Check received!");
-            return change;
+
+            PrintReceipt(cart, total + change, change);
+
+            Console.WriteLine($"{"Check Number:",-25} {checkNum,51} \n" +
+                    $"{"Routing Number:",-25} {routingHidden,51} \n" +
+                    $"{"Account Number:",-25} {accountHidden,51} \n");
         }
 
         public static void PayCard()
         {
+            string cardNum = Validator.CheckNumString("Enter the credit card number: ", 16);
+            string expy = Validator.CheckExpy("Enter card expiration date in MM/YYYY format: ");
+            string cvv = Validator.CheckNumString("Enter the security code on the back of the card: ", 3);
 
         }
 
-        public static void PrintReceipt(List<Goods> cart)
+        public static void PrintReceipt(List<Goods> cart, double payment, double change)
         {
+            Console.WriteLine();
+            Console.WriteLine($"{"RECEIPT",25}");
+            Console.WriteLine(new String('_',81));
             PrintCart(cart);
+            Console.WriteLine($"{"Amount tendered:",-25} {payment,51:C} \n" +
+                    $"{"Change:",-25} {change,51:C}");
         }
 
         public static bool Quitter()
