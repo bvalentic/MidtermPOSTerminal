@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MidtermPOSTerminal;
 
@@ -79,6 +80,20 @@ namespace UnitTestProject1
             }
 
             Assert.AreEqual(11, inputNum);
+        }
+
+        [TestMethod]
+        public void Validator_CheckNumString_StringLength()
+        {
+            string inputString = "111111111";
+            int stringLength = 9;
+
+            if (!Regex.IsMatch(inputString, @"^\d{9}$"))
+            {
+                Assert.Fail();
+            }
+
+            Assert.AreEqual("111111111", inputString);
         }
     }
 }

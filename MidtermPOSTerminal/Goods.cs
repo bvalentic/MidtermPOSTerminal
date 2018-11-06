@@ -40,11 +40,9 @@ namespace MidtermPOSTerminal
 
         public void ViewItem()
         {//shows detailed description of selected item in list
-            int maxLength = Name.Length;
-            
-            Console.WriteLine($"{"Name",-25} {"Category",-25} {"Price",-5}");
-            Console.WriteLine($"{"----",-25} {"--------",-25} {"-----",-5}");
-            Console.WriteLine($"{Name, -25} {Category,-25} {Price,-5:C}");
+            Console.WriteLine($"{"Name",-30} {"Category",-15} {"Price",-5}");
+            Console.WriteLine($"{"----",-30} {"--------",-15} {"-----",-5}");
+            Console.WriteLine($"{Name, -30} {Category,-15} {Price,-5:C}");
             Console.WriteLine($"\n{Description}");
         }
     }

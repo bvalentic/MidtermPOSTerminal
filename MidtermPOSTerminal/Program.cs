@@ -16,11 +16,12 @@ namespace MidtermPOSTerminal
             //directory and file I/O setup stuff
 
             List<Goods> goodsList = FileUser.MakeGoods();
+            goodsList.Sort();
             List<Goods> cart = new List<Goods> { };
 
             //rest of program
 
-            Console.WriteLine("Howdy partner! \n" +
+            Console.WriteLine("Howdy, partner! \n" +
                 "Welcome to the Independence General Store, of Independence, Missouri. \n" +
                 "Your one-stop shop for headin' down the Oregon Trail!");
             
@@ -40,7 +41,7 @@ namespace MidtermPOSTerminal
             {
                 ListOptions();
                 string inputString = Console.ReadLine().ToLower();
-
+                Console.WriteLine(new string('_',inputString.Length));
                 if (inputString == "1" || inputString == "goods")
                 {//view list of goods for sale
                     PrintMenu(goodsList);
@@ -57,11 +58,16 @@ namespace MidtermPOSTerminal
                 }
                 else if (inputString == "4" || inputString == "cart")
                 {//view cart
+                    Console.WriteLine("\nHere's what's in your cart:\n");
                     ViewCartOptions(cart);
                 }
                 else if (inputString == "5" || inputString == "buy")
                 {//buy items in cart
-                    Buy(cart);
+                    if (cart.Count > 0)
+                    {
+                        Buy(cart);
+                    }
+                    else Console.WriteLine("\nThere's nothin' in your cart!");
                 }
                 else if (inputString == "6" || inputString == "exit" || inputString == "quit")
                 {//quit
@@ -79,14 +85,14 @@ namespace MidtermPOSTerminal
         public static void ListOptions()
         {
             Console.WriteLine("\nWhat would you like to do?");
-            Console.WriteLine(@"
-1: goods -- view list of goods for sale
-2: sort -- sort list of goods by name, price, or category
-3: add -- view and choose an item to add to your cart of potential purchases");
+            Console.WriteLine($@"
+{"1) goods",-8} -- view list of goods for sale
+{"2) sort",-8} -- sort list of goods by name, price, or category
+{"3) add",-8} -- view and choose an item to add to your cart of potential purchases");
             Console.WriteLine("(or \"add [number]\" to add corresponding item to cart)");
-Console.Write(@"4: cart -- view goods added to your cart
-5: buy -- purchase the goods you have in your cart
-6: exit -- leave the general store
+Console.Write($@"{"4) cart",-8} -- view goods added to your cart
+{"5) buy",-8} -- purchase the goods you have in your cart
+{"6) exit",-8} -- leave the general store
 
 ");
         }
@@ -151,7 +157,7 @@ Console.Write(@"4: cart -- view goods added to your cart
         {
             if (inputString.Length > 3)
             {//user input add [number]
-                inputString = inputString.Remove(0, 4).Trim(' ');
+                inputString = inputString.Remove(0, 3).Trim(' ');
                 if (inputString.Length > 0)
                 {
                     int inputNum = Validator.CheckNum(inputString, 0, goodsList.Count);
@@ -175,7 +181,6 @@ Console.Write(@"4: cart -- view goods added to your cart
         public static double PrintCart(List<Goods> cart)
         {
             const int nameLength = 30;
-            Console.WriteLine("\nHere's what's in your cart:\n");
             Console.WriteLine($"\n{"#",-3} {"Name",-nameLength} {"Category",-15} {"Quantity",-10} {"Price",-8} {"Line Total",-10}");
             Console.WriteLine($"{"-",-3} {"----",-nameLength} {"--------",-15} {"--------",-10} {"-----",-8} {"----------",-10}");
             double subtotal = 0;
@@ -198,11 +203,15 @@ Console.Write(@"4: cart -- view goods added to your cart
         {
             if (cart.Count > 0)
             {
-                PrintCart(cart);
-                bool edit = Validator.CheckYes("\nWould you like to edit your cart? ");
-                if (edit)
+                bool edit = true;
+                while (edit)
                 {
-                    EditCart(cart);
+                    PrintCart(cart);
+                    edit = Validator.CheckYes("\nWould you like to edit your cart? ");
+                    if (edit)
+                    {
+                        EditCart(cart);
+                    }
                 }
             }
             else
@@ -243,7 +252,7 @@ Console.Write(@"4: cart -- view goods added to your cart
                 {
                     cart.Add(inputGood);
                     inputGood.Quantity += amount;
-                    Console.WriteLine($"Added {amount} {inputGood.Name}  to cart! ");
+                    Console.WriteLine($"Added {amount} {inputGood.Name} to cart! ");
                 }
                 else
                 {
@@ -268,8 +277,10 @@ Console.Write(@"4: cart -- view goods added to your cart
             else
             {
                 Goods editGood = cart[inputNum - 1];
+                Console.WriteLine();
                 editGood.ViewItem();
-                Console.WriteLine(@"Would you like to:
+                Console.WriteLine(@"
+Would you like to:
 1 -- change the quantity of this item
 2 -- remove this item from the cart
 3 -- return to the cart menu");
@@ -318,8 +329,8 @@ Console.Write(@"4: cart -- view goods added to your cart
         public static void Buy(List<Goods> cart)
         {
             double total = PrintCart(cart);
-            Console.WriteLine($"Your total comes to {total:C}.");
-            bool buy = Validator.CheckYes("Got everythin' you need? ");
+            Console.WriteLine($"\nYour total comes to {total:C}.");
+            bool buy = Validator.CheckYes("\nGot everythin' you need? ");
             if (buy)
             {
                 Console.WriteLine(@"Which of the big three frontier payment methods are you using?
@@ -330,22 +341,82 @@ Console.Write(@"4: cart -- view goods added to your cart
                 int inputNum = Validator.CheckNum(inputString);
                 if (inputNum == 1)
                 {//cash
-                    Console.WriteLine("Enter amount tendered: ");
+                    double change = PayCash(total);
+                    if (change > 0)
+                    {
+                        Console.WriteLine($"Your change is {change:C}.");
+                    }
                 }
                 else if (inputNum == 2)
                 {//check
-
+                    double change = PayCheck(total);
+                    if (change > 0)
+                    {
+                        Console.WriteLine($"Your change is {change:C}.");
+                    }
                 }
                 else if (inputNum == 3)
-                {//credit cart
+                {//credit card
+                    Console.WriteLine("Credit cards won't be invented for another century, but we'll give it a shot.");
 
+                    string cardNum = Validator.CheckNumString("Enter the credit card number: ", 16);
+                    string expy = Validator.CheckExpy("Enter card expiration date in MM/YYYY format: ");
+                    string cvv = Validator.CheckNumString("Enter the security code on the back of the card: ", 3);
                 }
+                cart = new List<Goods> { };
+                Console.WriteLine("Pleasure doing business with you!");
             }
             else
             {
                 Console.WriteLine("\nTake your time. No rush. It's gonna be a long time until you find another general store.\n" +
                     "And you ain't never gonna find one as well-stocked as the Independence General Store!\n");
             }
+        }
+
+        public static double PayCash(double total)
+        {
+            Console.Write("Enter amount tendered: ");
+            string paymentString = Console.ReadLine();
+            if (paymentString.StartsWith("$"))
+            {
+                paymentString = paymentString.Remove(0, 1);
+            }
+            double payment = Validator.VerifyCash(paymentString, total);
+            double change = payment - total;
+            return change;
+        }
+
+        public static double PayCheck(double total)
+        {
+            bool confirm = false;
+            double change;
+            do
+            {
+                string checkNum = Validator.CheckNumString("Enter the check number: ", 1, 5);
+                string routingNum = Validator.CheckNumString("Enter the routing number: ", 9);
+                string routingHidden = new String('*', 5) + routingNum.Substring(routingNum.Length - 4);
+                string accountNum = Validator.CheckNumString("Enter the checking account number: ", 8, 18);
+                string accountHidden = new string('*', (accountNum.Length - 4)) + accountNum.Substring(accountNum.Length - 4);
+                change = PayCash(total);
+
+                Console.WriteLine($"\nCheck Number: {checkNum} \n" +
+                    $"Routing Number: {routingHidden} \n" +
+                    $"Account Number: {accountHidden} \n" +
+                    $"Amount tendered: {total + change:C}");
+                confirm = Validator.CheckYes("\nIs this information correct? (y/n) ");
+            } while (!confirm);
+            Console.WriteLine("Check received!");
+            return change;
+        }
+
+        public static void PayCard()
+        {
+
+        }
+
+        public static void PrintReceipt(List<Goods> cart)
+        {
+            PrintCart(cart);
         }
 
         public static bool Quitter()
