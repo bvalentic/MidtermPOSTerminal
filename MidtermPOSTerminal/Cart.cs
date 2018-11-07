@@ -103,6 +103,11 @@ namespace MidtermPOSTerminal
             bool check = Validator.CheckYes("\nWould you like to add this to your cart? (y/n) ");
             if (check)
             {
+                if (cart.Contains(inputGood))
+                {
+                    Console.WriteLine("This is already in your cart!");
+                    return;
+                }
                 Console.Write("Quantity? ");
                 string inputString = Console.ReadLine();
                 int amount = Validator.CheckNum(inputString);

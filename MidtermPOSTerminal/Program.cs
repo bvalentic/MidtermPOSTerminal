@@ -11,7 +11,7 @@ namespace MidtermPOSTerminal
     class Program
     {
         static void Main(string[] args)
-        {
+        {//this program sets up a POS terminal for a general store in Independence, MO, for settlers heading west on the Oregon Trail
 
             //directory and file I/O setup stuff
 
@@ -83,7 +83,7 @@ namespace MidtermPOSTerminal
         }
 
         public static void ListOptions()
-        {
+        {//prints list of options available to user
             Console.WriteLine("\nWhat would you like to do?");
             Console.WriteLine($@"
 {"1) goods",-8} -- view list of goods for sale
@@ -98,7 +98,6 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
         }
 
         //methods involving menu (printing, sorting, adding to cart)
-        
 
         public static void PrintMenu(List<Goods> goodsList)
         {//displays list of goods
@@ -151,11 +150,8 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
             return goodsList;
         }
 
-        
-
-
         public static void Buy(List<Goods> cart)
-        {
+        {//allows user to "buy" the goods in their cart
             double total = Cart.PrintCart(cart);
             Console.WriteLine($"\nYour total comes to {total:C}.");
             bool buy = Validator.CheckYes("\nGot everythin' you need? ");
@@ -171,6 +167,8 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
                 {//cash
                     double change = PayCash(total);
                     PrintReceipt(cart, total + change, change);
+                    //PrintReceipt is in this method and not PayCash or somewhere else
+                    //due to the fact that I use PayCash in PayCheck as well
                 }
                 else if (inputNum == 2)
                 {//check
@@ -192,7 +190,7 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
         }
 
         public static double PayCash(double total)
-        {
+        {//takes a cash payment and returns change
             Console.Write("\nEnter amount tendered: ");
             string paymentString = Console.ReadLine();
             if (paymentString.StartsWith("$"))
@@ -205,7 +203,8 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
         }
 
         public static void PayCheck(double total, List<Goods> cart)
-        {
+        {//takes various inputs required to validate a check, uses PayCash to return the change, 
+         //then allows user to confirm inputs, then prints a receipt
             bool confirm;
             string checkNum;
             string routingNum;

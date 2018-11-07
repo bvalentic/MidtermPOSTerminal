@@ -8,11 +8,14 @@ namespace MidtermPOSTerminal
 {
     public class Goods : IComparable<Goods>
     {
+        //class of goods (kinda self-explanatory)
+        //every item sold in the store is a good
+
         private string name;
         private double price;
         private string category;
         private string description;
-        private int quantity;
+        private int quantity; //used only in the cart
 
         public string Name { get { return name; } set { name = value; } }
         public double Price { get { return price; } set { price = value; } }
@@ -21,7 +24,7 @@ namespace MidtermPOSTerminal
         public int Quantity { get { return quantity; } set { quantity = value; } }
 
         public Goods(string name, double price, string category, string description)
-        {
+        {//does not take an actual quantity until the good in question is added to the cart
             Name = name;
             Price = price;
             Category = category;
@@ -30,9 +33,13 @@ namespace MidtermPOSTerminal
         }
 
         public int CompareTo(Goods other)
-        {
+        {//will automatically sort by category, then name, then price
             if (this.Category == other.Category)
             {
+                if (this.Name == other.Name)
+                {
+                    return this.Price.CompareTo(other.Price);
+                }
                 return this.Name.CompareTo(other.Name);
             }
             return this.Category.CompareTo(other.Category);
