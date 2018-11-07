@@ -21,8 +21,8 @@ namespace MidtermPOSTerminal
 
             //rest of program
 
-            Console.WriteLine("Howdy, partner! \n" +
-                "Welcome to the Independence General Store, of Independence, Missouri. \n" +
+            Console.WriteLine("Howdy, partner! \n");
+            Console.WriteLine("Welcome to the Independence General Store, of Independence, Missouri. \n" +
                 "Your one-stop shop for headin' down the Oregon Trail!");
             
             MainMenu(goodsList, cart);
@@ -45,7 +45,7 @@ namespace MidtermPOSTerminal
                 if (inputString == "1" || inputString == "goods")
                 {//view list of goods for sale
                     PrintMenu(goodsList);
-                    GoToCart(goodsList, cart);
+                    Cart.GoToCart(goodsList, cart);
                 }
                 else if (inputString == "2" || inputString == "sort")
                 {//sort list
@@ -54,12 +54,12 @@ namespace MidtermPOSTerminal
                 }
                 else if (inputString == "3" || inputString.Contains("add"))
                 {//add to cart
-                    AddCartOptions(inputString, goodsList, cart);
+                    Cart.AddCartOptions(inputString, goodsList, cart);
                 }
                 else if (inputString == "4" || inputString == "cart")
                 {//view cart
                     Console.WriteLine("\nHere's what's in your cart:\n");
-                    ViewCartOptions(cart);
+                    Cart.ViewCartOptions(cart);
                 }
                 else if (inputString == "5" || inputString == "buy")
                 {//buy items in cart
@@ -119,8 +119,8 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
             while (sortLoop)
             {
                 if (inputString == "name")
-                {
-                    goodsList.Sort();
+                {                    
+                    goodsList = goodsList.OrderBy(good => good.Name).ToList<Goods>();
                     Console.WriteLine("Sorted by name!");
                     PrintMenu(goodsList);
                     sortLoop = false;
@@ -134,7 +134,7 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
                 }
                 else if (inputString == "category")
                 {
-                    goodsList = goodsList.OrderBy(good => good.Category).ToList<Goods>();
+                    goodsList.Sort();
                     Console.WriteLine("Sorted by category!");
                     PrintMenu(goodsList);
                     sortLoop = false;
@@ -151,184 +151,12 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
             return goodsList;
         }
 
-        //cart-related methods
-
-        public static void AddCartOptions(string inputString, List<Goods> goodsList, List<Goods> cart)
-        {
-            if (inputString.Length > 3)
-            {//user input add [number]
-                inputString = inputString.Remove(0, 3).Trim(' ');
-                if (inputString.Length > 0)
-                {
-                    int inputNum = Validator.CheckNum(inputString, 0, goodsList.Count);
-                    AddToCart(goodsList, cart, inputNum);
-                }
-                else
-                {
-                    PrintMenu(goodsList);
-                    Console.WriteLine("What do you want to add to your cart?");
-                    GoToCart(goodsList, cart);
-                }
-            }
-            else
-            {//user input "add"
-                PrintMenu(goodsList);
-                Console.WriteLine("What do you want to add to your cart?");
-                GoToCart(goodsList, cart);
-            }
-        }
-
-        public static double PrintCart(List<Goods> cart)
-        {
-            const int nameLength = 30;
-            Console.WriteLine($"\n{"#",-3} {"Name",-nameLength} {"Category",-15} {"Quantity",-10} {"Price",-8} {"Line Total",-10}");
-            Console.WriteLine($"{"-",-3} {"----",-nameLength} {"--------",-15} {"--------",-10} {"-----",-8} {"----------",-10}");
-            double subtotal = 0;
-
-            for (int i = 0; i < cart.Count; i++)
-            {
-                Console.WriteLine($"{i + 1,-3} {cart[i].Name,-nameLength} {cart[i].Category,-15} {cart[i].Quantity,-10} " +
-                    $"{cart[i].Price,-8:C} {cart[i].Quantity * cart[i].Price,-10:C}");
-                subtotal += cart[i].Quantity * cart[i].Price;
-            }
-            Console.WriteLine($"\n{"Subtotal:",-25} {subtotal,51:C}");
-            double tax = subtotal * 0.06;
-            double total = Math.Round(subtotal + tax,2);
-            Console.WriteLine($"{"Sales tax:",-25} {tax,51:C}");
-            Console.WriteLine($"{"Total:",-25} {total,51:C}");
-            return total;
-        }
-
-        public static void ViewCartOptions(List<Goods> cart)
-        {
-            if (cart.Count > 0)
-            {
-                bool edit = true;
-                while (edit)
-                {
-                    PrintCart(cart);
-                    edit = Validator.CheckYes("\nWould you like to edit your cart? ");
-                    if (edit)
-                    {
-                        EditCart(cart);
-                    }
-                }
-            }
-            else
-            {
-                Console.WriteLine("\nThere's nothin' in your cart!");
-            }
-        }
-
-        public static void GoToCart(List<Goods> goodsList, List<Goods> cart)
-        {
-            Console.Write("\nEnter a number to view a description of that item,\n" +
-                        "or enter \"0\" to go back: ");
-            string inputString = Console.ReadLine();
-            int inputNum = Validator.CheckNum(inputString, 0, goodsList.Count);
-            if (inputNum == 0)
-            {
-                Console.WriteLine("Returning to the main menu. . .");
-                return;
-            }
-            else
-            {
-                AddToCart(goodsList, cart, inputNum);
-            }
-        }
-
-        public static void AddToCart(List<Goods> goodsList, List<Goods> cart, int inputNum)
-        {
-            Goods inputGood = goodsList[inputNum - 1];
-            Console.WriteLine($"\nYou have chosen {inputNum} -- {inputGood.Name}\n");
-            inputGood.ViewItem();
-            bool check = Validator.CheckYes("\nWould you like to add this to your cart? (y/n) ");
-            if (check)
-            {
-                Console.Write("Quantity? ");
-                string inputString = Console.ReadLine();
-                int amount = Validator.CheckNum(inputString);
-                if (amount > 0)
-                {
-                    cart.Add(inputGood);
-                    inputGood.Quantity += amount;
-                    Console.WriteLine($"Added {amount} {inputGood.Name} to cart! ");
-                }
-                else
-                {
-                    Console.WriteLine("Not buyin', eh? Fine by me. Feel free to keep browsin'!");
-                }
-            }
-            else
-            {
-                Console.WriteLine("Returnin' to the main menu. . .");
-            }
-        }
-
-        public static void EditCart(List<Goods> cart)
-        {
-            Console.Write("Enter the number of the item you want to edit, or enter \"0\" to return: ");
-            string inputString = Console.ReadLine();
-            int inputNum = Validator.CheckNum(inputString, 0, cart.Count);
-            if (inputNum == 0)
-            {
-                Console.WriteLine("Returnin' to the main menu. . .");
-            }
-            else
-            {
-                Goods editGood = cart[inputNum - 1];
-                Console.WriteLine();
-                editGood.ViewItem();
-                Console.WriteLine(@"
-Would you like to:
-1 -- change the quantity of this item
-2 -- remove this item from the cart
-3 -- return to the cart menu");
-                inputString = Console.ReadLine();
-                inputNum = Validator.CheckNum(inputString, 1, 3);
-
-                if (inputNum == 1)
-                {//change item quantity
-                    Console.Write("What would you like the new quantity to be? ");
-                    string amountString = Console.ReadLine();
-                    int amount = Validator.CheckNum(amountString);
-                    if (amount == 0)
-                    {//remove item
-                        RemoveFromCart(cart, editGood);
-                    }
-                    else
-                    {
-                        editGood.Quantity = amount;
-                    }
-                }
-                else if (inputNum == 2)
-                {//remove item
-                    RemoveFromCart(cart, editGood);
-                }
-                else if (inputNum == 3)
-                {//return to cart menu
-                    ViewCartOptions(cart);
-                }
-            }
-        }
-
-        public static void RemoveFromCart(List<Goods> cart, Goods removeGood)
-        {
-            bool remove = Validator.CheckYes("Are you sure you want to remove this item from your cart? ");
-            if (remove)
-            {
-                cart.Remove(removeGood);
-            }
-            else
-            {
-                Console.WriteLine("I'll leave it in your cart, then.");
-            }
-        }
+        
 
 
         public static void Buy(List<Goods> cart)
         {
-            double total = PrintCart(cart);
+            double total = Cart.PrintCart(cart);
             Console.WriteLine($"\nYour total comes to {total:C}.");
             bool buy = Validator.CheckYes("\nGot everythin' you need? ");
             if (buy)
@@ -353,7 +181,7 @@ Would you like to:
                     Console.WriteLine("Credit cards won't be invented for another century, but we'll give it a shot.");
                     PayCard(total, cart);
                 }
-                cart = new List<Goods> { };
+                cart.RemoveRange(0, cart.Count);
                 Console.WriteLine("\nPleasure doing business with you!");
             }
             else
@@ -365,7 +193,7 @@ Would you like to:
 
         public static double PayCash(double total)
         {
-            Console.Write("Enter amount tendered: ");
+            Console.Write("\nEnter amount tendered: ");
             string paymentString = Console.ReadLine();
             if (paymentString.StartsWith("$"))
             {
@@ -387,10 +215,10 @@ Would you like to:
             double change;
             do
             {
-                checkNum = Validator.CheckNumString("Enter the check number: ", 1, 5);
-                routingNum = Validator.CheckNumString("Enter the routing number: ", 9);
+                checkNum = Validator.CheckNumString("\nEnter the check number: ", 1, 5);
+                routingNum = Validator.CheckNumString("\nEnter the routing number: ", 9);
                 routingHidden = new String('*', 5) + routingNum.Substring(routingNum.Length - 4);
-                accountNum = Validator.CheckNumString("Enter the checking account number: ", 8, 18);
+                accountNum = Validator.CheckNumString("\nEnter the checking account number: ", 8, 18);
                 accountHidden = new string('*', (accountNum.Length - 4)) + accountNum.Substring(accountNum.Length - 4);
                 change = PayCash(total);
 
@@ -417,11 +245,11 @@ Would you like to:
             string cvv;
             do
             {
-                string cardNum = Validator.CheckNumString("Enter the credit card number: ", 16);
+                string cardNum = Validator.CheckNumString("\nEnter the credit card number: ", 16);
                 cardHidden = new string('*', 12) + cardNum.Substring(cardNum.Length - 4);
-                expy = Validator.CheckExpy("Enter card expiration date in MM/YYYY format: ");
-                cvv = Validator.CheckNumString("Enter the security code on the back of the card: ", 3);
-                Console.WriteLine($"Total: {total:C}");
+                expy = Validator.CheckExpy("\nEnter card expiration date in MM/YYYY format: ");
+                cvv = Validator.CheckNumString("\nEnter the security code on the back of the card: ", 3);
+                Console.WriteLine($"\nTotal: {total:C}");
                 confirm = Validator.CheckYes("\nIs this amount OK? ");
                 if (confirm)
                 {
@@ -430,9 +258,14 @@ Would you like to:
                     $"CVV: {"***"} \n" +
                     $"Amount confirmed: {total:C}");
                     confirm = Validator.CheckYes("\nIs this information correct? (y/n) ");
-                }                
+                }     
+                else
+                {
+                    Console.WriteLine("\nReturnin' to the main menu. . .");
+                    return;
+                }
             } while (!confirm);
-            Console.WriteLine("Card accepted!");
+            Console.WriteLine("\nCard accepted!");
 
             PrintReceipt(cart, total, 0);
 
@@ -444,9 +277,9 @@ Would you like to:
         public static void PrintReceipt(List<Goods> cart, double payment, double change)
         {
             Console.WriteLine();
-            Console.WriteLine($"{"RECEIPT",25}");
+            Console.WriteLine($"{"RECEIPT",40}");
             Console.WriteLine(new String('_',81));
-            PrintCart(cart);
+            Cart.PrintCart(cart);
             Console.WriteLine($"{"Amount tendered:",-25} {payment,51:C} \n" +
                     $"{"Change:",-25} {change,51:C}");
         }

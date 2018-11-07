@@ -31,11 +31,11 @@ namespace MidtermPOSTerminal
 
         public int CompareTo(Goods other)
         {
-            if (this.Name == other.Name)
+            if (this.Category == other.Category)
             {
-                return this.Price.CompareTo(other.Price);
+                return this.Name.CompareTo(other.Name);
             }
-            return this.Name.CompareTo(other.Name);
+            return this.Category.CompareTo(other.Category);
         }
 
         public void ViewItem()

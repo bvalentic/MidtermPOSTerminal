@@ -30,7 +30,7 @@ namespace UnitTestProject1
 
             goodsListTest.Sort();
 
-            Assert.AreEqual("Circle", goodsListTest[0].Name);
+            Assert.AreEqual("Color", goodsListTest[0].Category);
         }
 
         [TestMethod]
@@ -85,15 +85,15 @@ namespace UnitTestProject1
         [TestMethod]
         public void Validator_CheckNumString_StringLength()
         {
-            string inputString = "111111111";
+            string inputString = "123456789";
             int stringLength = 9;
 
-            if (!Regex.IsMatch(inputString, @"^\d{9}$"))
+            if (!Regex.IsMatch(inputString, @"^\d+$") || inputString.Length != stringLength)
             {
                 Assert.Fail();
             }
 
-            Assert.AreEqual("111111111", inputString);
+            Assert.AreEqual("123456789", inputString);
         }
     }
 }
