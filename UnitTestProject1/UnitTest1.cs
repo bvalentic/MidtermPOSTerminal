@@ -73,8 +73,7 @@ namespace UnitTestProject1
         public void Validator_CheckNum_True()
         {
             string inputString = "12";
-            int inputNum;
-            if (!(int.TryParse(inputString, out inputNum)) || inputNum < 0 || inputNum > 10)
+            if (!(int.TryParse(inputString, out int inputNum)) || inputNum < 0 || inputNum > 10)
             {
                 inputNum = 11;
             }

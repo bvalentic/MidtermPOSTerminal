@@ -53,6 +53,9 @@
     <Compile Include="Validator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Independence.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="App.config" />
     <Content Include="goodsList.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

@@ -64,6 +64,7 @@ namespace MidtermPOSTerminal
                 bool edit = true;
                 while (edit)
                 {
+                    Console.WriteLine("\nHere's what's in your cart:\n");
                     PrintCart(cart);
                     edit = Validator.CheckYes("\nWould you like to edit your cart? ");
                     if (edit)
@@ -74,7 +75,7 @@ namespace MidtermPOSTerminal
             }
             else
             {
-                Console.WriteLine("\nThere's nothin' in your cart!");
+                Console.WriteLine("\nThere ain't nothin' in yer cart!");
             }
         }
 
@@ -86,7 +87,7 @@ namespace MidtermPOSTerminal
             int inputNum = Validator.CheckNum(inputString, 0, goodsList.Count);
             if (inputNum == 0)
             {
-                Console.WriteLine("Returning to the main menu. . .");
+                Console.WriteLine("Returnin' to the main menu. . .");
                 return;
             }
             else
@@ -105,7 +106,8 @@ namespace MidtermPOSTerminal
             {
                 if (cart.Contains(inputGood))
                 {
-                    Console.WriteLine("This is already in your cart!");
+                    Console.WriteLine("This is already in your cart! \n" +
+                        "If you want to change the amount of this in your cart, you can edit it through to cart menu.");
                     return;
                 }
                 Console.Write("Quantity? ");
@@ -115,7 +117,7 @@ namespace MidtermPOSTerminal
                 {
                     cart.Add(inputGood);
                     inputGood.Quantity += amount;
-                    Console.WriteLine($"\nAdded {amount} {inputGood.Name} to cart! ");
+                    Console.WriteLine($"\nAdded ({amount}) {inputGood.Name} to cart! ");
                 }
                 else
                 {
@@ -166,8 +168,8 @@ Would you like to:
                     }
                     else
                     {
-                        Console.WriteLine("That's the same amount in your cart already! " +
-                            "You tryin' to pull somethin' here?");
+                        Console.WriteLine("That's the same amount in yer cart already! " +
+                            "You tryin' to pull somethin' here, buddy?");
                     }
                 }
                 else if (inputNum == 2)
@@ -190,9 +192,8 @@ Would you like to:
             }
             else
             {
-                Console.WriteLine("I'll leave it in your cart, then.");
+                Console.WriteLine("I'll leave it in yer cart, then.");
             }
         }
-
     }
 }

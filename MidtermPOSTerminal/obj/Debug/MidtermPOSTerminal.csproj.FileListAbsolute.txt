@@ -7,3 +7,4 @@ C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\obj\Debug\
 C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\obj\Debug\MidtermPOSTerminal.exe
 C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\obj\Debug\MidtermPOSTerminal.pdb
 C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\bin\Debug\goodsList.csv
+C:\Users\bvalentic\source\repos\MidtermPOSTerminal\MidtermPOSTerminal\bin\Debug\Independence.wav

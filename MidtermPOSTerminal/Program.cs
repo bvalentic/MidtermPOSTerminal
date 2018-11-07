@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -19,16 +20,21 @@ namespace MidtermPOSTerminal
             goodsList.Sort();
             List<Goods> cart = new List<Goods> { };
 
+            //load & play music
+
+            SoundPlayer player = new SoundPlayer(AppDomain.CurrentDomain.BaseDirectory + "\\Independence.wav");
+            player.PlayLooping();
+
             //rest of program
 
             Console.WriteLine("Howdy, partner! \n");
             Console.WriteLine("Welcome to the Independence General Store, of Independence, Missouri. \n" +
-                "Your one-stop shop for headin' down the Oregon Trail!");
+                "Yer one-stop shop fer headin' down the Oregon Trail!");
             
             MainMenu(goodsList, cart);
 
             //once user decides to quit
-            Console.WriteLine("Thank you for your patronage, and good luck on the trail!");
+            Console.WriteLine("Thank you for your patronage, and good luck on the trail, pilgrim!");
             Console.ReadKey();
         }
 
@@ -42,14 +48,15 @@ namespace MidtermPOSTerminal
                 ListOptions();
                 string inputString = Console.ReadLine().ToLower();
                 Console.WriteLine(new string('_',inputString.Length));
+
                 if (inputString == "1" || inputString == "goods")
                 {//view list of goods for sale
+                    Console.WriteLine("\nList of goods for sale:\n");
                     PrintMenu(goodsList);
                     Cart.GoToCart(goodsList, cart);
                 }
                 else if (inputString == "2" || inputString == "sort")
                 {//sort list
-                    Console.WriteLine("\nList of goods for sale:\n");
                     goodsList = SortMenu(goodsList);
                 }
                 else if (inputString == "3" || inputString.Contains("add"))
@@ -58,7 +65,6 @@ namespace MidtermPOSTerminal
                 }
                 else if (inputString == "4" || inputString == "cart")
                 {//view cart
-                    Console.WriteLine("\nHere's what's in your cart:\n");
                     Cart.ViewCartOptions(cart);
                 }
                 else if (inputString == "5" || inputString == "buy")
@@ -237,13 +243,14 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
         }
 
         public static void PayCard(double total, List<Goods> cart)
-        {
+        {//verifies card #, expiration date, and CVV, "confirms" charge, and prints receipt
+         //no cashback option here, sorry
             bool confirm;
             string cardHidden;
             string expy;
             string cvv;
             do
-            {
+            {//loop allows user to re-input info if they think the inputs aren't correct
                 string cardNum = Validator.CheckNumString("\nEnter the credit card number: ", 16);
                 cardHidden = new string('*', 12) + cardNum.Substring(cardNum.Length - 4);
                 expy = Validator.CheckExpy("\nEnter card expiration date in MM/YYYY format: ");
@@ -267,7 +274,6 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
             Console.WriteLine("\nCard accepted!");
 
             PrintReceipt(cart, total, 0);
-
             Console.WriteLine($"{"Card Number:",-25} {cardHidden,51} \n" +
                     $"{"Expiration Date:",-25} {expy,51} \n" +
                     $"{"CVV:",-25} {"***",51} \n");
@@ -287,7 +293,5 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
         {
             return !Validator.CheckYes("Are you sure you wanna leave? ");
         }
-
-        
     }
 }
