@@ -134,7 +134,7 @@ namespace MidtermPOSTerminal
         }
 
         public static string CheckExpy(string promptString)
-        {
+        {//checks expiration date is in MM/YYYY format with correct inputs 
             Console.Write(promptString);
             string inputString = Console.ReadLine();
             while (!(Regex.IsMatch(inputString, @"^\d{2}[/]\d{4}$")))

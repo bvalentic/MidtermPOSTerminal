@@ -123,32 +123,39 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
             string inputString = Console.ReadLine().ToLower();
             while (sortLoop)
             {
-                if (inputString == "name")
-                {                    
-                    goodsList = goodsList.OrderBy(good => good.Name).ToList<Goods>();
-                    Console.WriteLine("Sorted by name!");
-                    PrintMenu(goodsList);
-                    sortLoop = false;
-                }
-                else if (inputString == "price")
+                switch (inputString)
                 {
-                    goodsList = goodsList.OrderBy(good => good.Price).ToList<Goods>();
-                    Console.WriteLine("Sorted by price!");
-                    PrintMenu(goodsList);
-                    sortLoop = false;
-                }
-                else if (inputString == "category")
-                {
-                    goodsList.Sort();
-                    Console.WriteLine("Sorted by category!");
-                    PrintMenu(goodsList);
-                    sortLoop = false;
-                }
-                else
-                {
-                    Console.Write("I'm sorry, I didn't understand. " +
-                        "Please enter \"name\", \"price\", or \"category\": ");
-                    inputString = Console.ReadLine().ToLower();
+                    case "name":
+                        {
+                            goodsList = goodsList.OrderBy(good => good.Name).ToList<Goods>();
+                            Console.WriteLine("Sorted by name!");
+                            PrintMenu(goodsList);
+                            sortLoop = false;
+                            break;
+                        }
+                    case "price":
+                        {
+                            goodsList = goodsList.OrderBy(good => good.Price).ToList<Goods>();
+                            Console.WriteLine("Sorted by price!");
+                            PrintMenu(goodsList);
+                            sortLoop = false;
+                            break;
+                        }
+                    case "category":
+                        {
+                            goodsList.Sort();
+                            Console.WriteLine("Sorted by category!");
+                            PrintMenu(goodsList);
+                            sortLoop = false;
+                            break;
+                        }
+                    default:
+                        {
+                            Console.Write("I'm sorry, I didn't understand. " +
+                            "Please enter \"name\", \"price\", or \"category\": ");
+                            inputString = Console.ReadLine().ToLower();
+                            break;
+                        }
                 }
             }
             Console.WriteLine("\nPress any key to continue.");
