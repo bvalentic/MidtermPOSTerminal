@@ -88,9 +88,10 @@ namespace MidtermPOSTerminal
         }
 
         public static void Header()
-        {
+        {//prints greeting message
             Console.WriteLine(new String('*', 75));
-            Console.WriteLine(@"*  Howdy, partner!                                                        *
+            Console.WriteLine(
+@"*  Howdy, partner!                                                        *
 *                                                                         *
 *  Welcome to the Independence General Store, of Independence, Missouri.  *
 *                                                                         *
@@ -99,9 +100,10 @@ namespace MidtermPOSTerminal
         }
 
         public static void Footer()
-        {
+        {//prints goodbye message
             Console.WriteLine("\n" + new String('*', 75));
-            Console.WriteLine(@"*                                                                         *
+            Console.WriteLine(
+@"*                                                                         *
 *  Thank you for your patronage, and good luck out on the trail, pilgrim! *
 *                                                                         *");
             Console.WriteLine(new String('*', 75));
