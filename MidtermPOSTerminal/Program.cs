@@ -12,7 +12,8 @@ namespace MidtermPOSTerminal
     class Program
     {
         static void Main(string[] args)
-        {//this program sets up a POS terminal for a general store in Independence, MO, for settlers heading west on the Oregon Trail
+        {//this program sets up a POS terminal for a general store in Independence, MO, 
+         //for settlers heading west on the Oregon Trail
 
             //directory and file I/O setup stuff
 
@@ -231,7 +232,7 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
                 routingNum = Validator.CheckNumString("\nEnter the routing number: ", 9);
                 routingHidden = new String('*', 5) + routingNum.Substring(routingNum.Length - 4);
                 accountNum = Validator.CheckNumString("\nEnter the checking account number: ", 8, 18);
-                accountHidden = new string('*', (accountNum.Length - 4)) + accountNum.Substring(accountNum.Length - 4);
+                accountHidden = new string('*', 5) + accountNum.Substring(accountNum.Length - 4);
                 change = PayCash(total);
 
                 Console.WriteLine($"\nCheck Number: {checkNum} \n" +
@@ -244,9 +245,9 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
 
             PrintReceipt(cart, total + change, change);
 
-            Console.WriteLine($"{"Check Number:",-25} {checkNum,51} \n" +
-                    $"{"Routing Number:",-25} {routingHidden,51} \n" +
-                    $"{"Account Number:",-25} {accountHidden,51} \n");
+            Console.WriteLine($"{"Check Number:",-70} {checkNum,10} \n" +
+                    $"{"Routing Number:",-70} {routingHidden,10} \n" +
+                    $"{"Account Number:",-70} {accountHidden,10} \n");
         }
 
         public static void PayCard(double total, List<Goods> cart)
@@ -281,9 +282,9 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
             Console.WriteLine("\nCard accepted!");
 
             PrintReceipt(cart, total, 0);
-            Console.WriteLine($"{"Card Number:",-25} {cardHidden,51} \n" +
-                    $"{"Expiration Date:",-25} {expy,51} \n" +
-                    $"{"CVV:",-25} {"***",51} \n");
+            Console.WriteLine($"{"Card Number:",-64} {cardHidden,-10} \n" +
+                    $"{"Expiration Date:",-70} {expy,10} \n" +
+                    $"{"CVV:",-70} {"***",10} \n");
         }
 
         public static void PrintReceipt(List<Goods> cart, double payment, double change)
@@ -292,8 +293,8 @@ Console.Write($@"{"4) cart",-8} -- view goods added to your cart
             Console.WriteLine($"{"RECEIPT",40}");
             Console.WriteLine(new String('_',81));
             Cart.PrintCart(cart);
-            Console.WriteLine($"{"Amount tendered:",-25} {payment,51:C} \n" +
-                    $"{"Change:",-25} {change,51:C}");
+            Console.WriteLine($"{"Amount tendered:",-70} {payment,10:C} \n" +
+                    $"{"Change:",-70} {change,10:C}");
         }
 
         public static bool Quitter()

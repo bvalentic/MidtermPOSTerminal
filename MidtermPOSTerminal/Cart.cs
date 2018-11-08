@@ -97,14 +97,14 @@ namespace MidtermPOSTerminal
             for (int i = 0; i < cart.Count; i++)
             {
                 Console.WriteLine($"{i + 1,-3} {cart[i].Name,-nameLength} {cart[i].Category,-15} {cart[i].Quantity,-10} " +
-                    $"{cart[i].Price,-8:C} {cart[i].Quantity * cart[i].Price,-10:C}");
+                    $"{cart[i].Price,-8:C} {cart[i].Quantity * cart[i].Price,10:C}");
                 subtotal += cart[i].Quantity * cart[i].Price;
             }
-            Console.WriteLine($"\n{"Subtotal:",-25} {subtotal,51:C}");
+            Console.WriteLine($"\n{"Subtotal:",-70} {subtotal,10:C}");
             double tax = subtotal * 0.06;
             double total = Math.Round(subtotal + tax, 2);
-            Console.WriteLine($"{"Sales tax:",-25} {tax,51:C}");
-            Console.WriteLine($"{"Total:",-25} {total,51:C}");
+            Console.WriteLine($"{"Sales tax:",-70} {tax,10:C}");
+            Console.WriteLine($"{"Total:",-70} {total,10:C}");
             return total;
         }
 
@@ -183,7 +183,6 @@ Would you like to:
                     }
                     case 3:
                     {
-                        ViewCartOptions(cart);
                         break;
                     }
                 }
