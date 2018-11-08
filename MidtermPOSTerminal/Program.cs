@@ -28,15 +28,13 @@ namespace MidtermPOSTerminal
 
             //rest of program
 
-            Console.WriteLine("Howdy, partner! \n");
-            Console.WriteLine("Welcome to the Independence General Store, of Independence, Missouri. \n" +
-                "Yer one-stop shop fer headin' down the Oregon Trail!");
+            Header();
             
             MainMenu(goodsList, cart);
 
             //once user decides to quit
-            Console.WriteLine("Thank you for your patronage, and good luck on the trail, pilgrim!");
-            Console.ReadKey();
+
+            Footer();
         }
 
         //main "hub" method
@@ -87,6 +85,27 @@ namespace MidtermPOSTerminal
                         "Please enter a number or word corresponding to the choice you wish to make.\n");
                 }
             }
+        }
+
+        public static void Header()
+        {
+            Console.WriteLine(new String('*', 75));
+            Console.WriteLine(@"*  Howdy, partner!                                                        *
+*                                                                         *
+*  Welcome to the Independence General Store, of Independence, Missouri.  *
+*                                                                         *
+*  Yer one-stop shop fer headin' down the Oregon Trail!                   *");
+            Console.WriteLine(new String('*', 75));
+        }
+
+        public static void Footer()
+        {
+            Console.WriteLine("\n" + new String('*', 75));
+            Console.WriteLine(@"*                                                                         *
+*  Thank you for your patronage, and good luck out on the trail, pilgrim! *
+*                                                                         *");
+            Console.WriteLine(new String('*', 75));
+            Console.ReadKey();
         }
 
         public static void ListOptions()
